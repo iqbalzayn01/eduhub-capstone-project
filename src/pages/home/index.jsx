@@ -1,6 +1,7 @@
 import Badge from '../../components/Badge';
 import Button from '../../components/Button';
 import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 import { FiArrowUpRight } from 'react-icons/fi';
 import ReviewCard from '../../components/ReviewCard';
 
@@ -207,10 +208,9 @@ export default function HomePage() {
               />
             </div>
           </section>
-          <div className="mt-32 border-t-2 py-8">Footer</div>
+          <Footer />
         </div>
       </main>
-      <footer></footer>
     </>
   );
 }
