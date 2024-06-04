@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+    body {
+        @apply bg-colorsecondary font-fontbase tracking-wide
+    }
+
+    body::-webkit-scrollbar {
+        display: none;
+    }
+
+    .container-base {
+        @apply container mx-auto
+    }
+
+    .p-base {
+        @apply font-medium text-base md:text-xl
+    }
+}
+
+@layer components {
+    .btn-base {
+        @apply flex place-content-center px-4 py-2 rounded-xl
+    }
+
+    .text-input {
+        @apply appearance-none rounded-lg px-5 py-2 bg-neutral-200 placeholder-gray-500 text-gray-900 focus:outline-none
+    }
+}
