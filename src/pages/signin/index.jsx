@@ -1,8 +1,34 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+
+import { signIn } from '../../utils/auth';
 
 import FormSignIn from './formSignIn';
 
 export default function SignIn() {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await signIn(formData.email, formData.password);
+      alert('Sign In successful!');
+    } catch (error) {
+      console.error('Error signing in user:', error);
+      alert('Error signing in user: ' + error.message);
+    }
+  };
+
   return (
     <div className="grid grid-cols-2 w-full h-screen">
       <div
@@ -35,10 +61,16 @@ export default function SignIn() {
           <p className="w-[60%] text-center text-lg font-medium">
             Please enter your details.
           </p>
-          <FormSignIn className="mb-20" />
+          <FormSignIn
+            className="mb-20"
+            handleSubmit={handleSubmit}
+            onChange={handleChange}
+            valueEmail={formData.email}
+            valuePassword={formData.password}
+          />
           <span className="text-lg text-colorgray font-medium">
             Don’t have an account?{' '}
-            <Link to="/" className="text-black font-bold underline">
+            <Link to="/signup" className="text-black font-bold underline">
               Sign Up
             </Link>
           </span>
@@ -51,7 +83,7 @@ export default function SignIn() {
           </li>
           <li>
             <Link to="#privacy-police" className="font-semibold">
-              Privacy Police
+              Privacy Policy
             </Link>
           </li>
         </ul>

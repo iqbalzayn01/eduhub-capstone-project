@@ -1,8 +1,44 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+
+import { signUp } from '../../utils/auth';
+import { db } from '../../utils/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 import FormSignUp from './formSignUp';
 
 export default function SignUp() {
+  const [formData, setFormData] = useState({
+    // firstName: '',
+    // lastName: '',
+    email: '',
+    password: '',
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const userCredential = await signUp(formData.email, formData.password);
+      const user = userCredential.user;
+      await setDoc(doc(db, 'users', user.uid), {
+        // firstName: formData.firstName,
+        // lastName: formData.lastName,
+        email: formData.email,
+      });
+      alert('Registration successful!');
+    } catch (error) {
+      console.error('Error creating user:', error);
+      alert('Error creating user: ' + error.message);
+    }
+  };
+
   return (
     <div className="grid grid-cols-2 w-full h-screen">
       <div
@@ -49,7 +85,16 @@ export default function SignUp() {
           We provide various top-notch events to help you enhance your skills in
           the field of technology.
         </p>
-        <FormSignUp className="mb-20" />
+        <FormSignUp
+          className="mb-20"
+          handleSubmit={handleSubmit}
+          onChange={handleChange}
+          valueFirstName={formData.firstName}
+          valueLastName={formData.lastName}
+          valueEmail={formData.email}
+          valuePassword={formData.password}
+          valueRole={formData.role}
+        />
         <span className="text-lg text-colorgray font-medium">
           Already have an account?{' '}
           <Link to="/signin" className="text-black font-bold underline">

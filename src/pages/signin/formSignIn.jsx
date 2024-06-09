@@ -48,8 +48,6 @@ FormSignIn.propTypes = {
   className: PropTypes.string,
   handleSubmit: PropTypes.func,
   onChange: PropTypes.func,
-  valueName: PropTypes.string,
   valueEmail: PropTypes.string,
   valuePassword: PropTypes.string,
-  valueRole: PropTypes.string,
 };

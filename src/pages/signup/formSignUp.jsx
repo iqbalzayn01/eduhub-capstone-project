@@ -4,40 +4,41 @@ export default function FormSignUp({
   className,
   handleSubmit,
   onChange,
-  valueName,
+  // valueFirstName,
+  // valueLastName,
   valueEmail,
   valuePassword,
-  valueRole,
 }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className={`flex flex-col gap-5 ${className}`}
+      // flex flex-col gap-5
+      className={`flex flex-col w-1/2 gap-5 ${className}`}
     >
-      <div className="flex justify-stretch gap-5">
+      {/* <div className="flex justify-stretch gap-5">
         <div className="w-full">
           <input
             type="text"
-            name="name"
+            name="firstName"
             placeholder="First Name"
-            value={valueName}
+            // value={valueFirstName}
             onChange={onChange}
             className="w-full bg-transparent p-2 border border-colorgray rounded-xl"
-            required
+            // required
           />
         </div>
         <div className="w-full">
           <input
             type="text"
-            name="name"
+            name="lastName"
             placeholder="Last Name"
-            value={valueName}
+            // value={valueLastName}
             onChange={onChange}
             className="w-full bg-transparent p-2 border border-colorgray rounded-xl"
-            required
+            // required
           />
         </div>
-      </div>
+      </div> */}
       <div className="">
         <input
           type="email"
@@ -60,20 +61,9 @@ export default function FormSignUp({
           required
         />
       </div>
-      <div className="">
-        <input
-          type="text"
-          name="role"
-          placeholder="Role"
-          value={valueRole}
-          onChange={onChange}
-          className="w-full bg-transparent p-2 border border-colorgray rounded-xl"
-          required
-        />
-      </div>
       <button
         type="submit"
-        className="self-center w-1/4 font-semibold bg-black hover:bg-colorprimary text-colorprimary hover:text-black p-2 rounded-xl"
+        className="self-center w-1/2 font-semibold bg-black hover:bg-colorprimary text-colorprimary hover:text-black p-2 rounded-xl"
       >
         Sign Up
       </button>
@@ -83,10 +73,10 @@ export default function FormSignUp({
 
 FormSignUp.propTypes = {
   className: PropTypes.string,
-  handleSubmit: PropTypes.func,
-  onChange: PropTypes.func,
-  valueName: PropTypes.string,
-  valueEmail: PropTypes.string,
-  valuePassword: PropTypes.string,
-  valueRole: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  // valueFirstName: PropTypes.string.isRequired,
+  // valueLastName: PropTypes.string.isRequired,
+  valueEmail: PropTypes.string.isRequired,
+  valuePassword: PropTypes.string.isRequired,
 };
