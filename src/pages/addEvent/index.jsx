@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Navbar from '../../components/Navbar';
+import { addEvent } from '../../utils/firestore';
 
 export default function AddEvent() {
   const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ export default function AddEvent() {
     timeEnd: '',
     eventType: 'webinar',
     price: '',
+    tags: '',
   });
 
   const handleInputChange = (e) => {
@@ -26,9 +28,10 @@ export default function AddEvent() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+    await addEvent(formData);
   };
 
   return (
@@ -107,6 +110,21 @@ export default function AddEvent() {
               value={formData.keyFeatures}
               onChange={handleInputChange}
               style={{ resize: 'none', width: '400px', height: '80px' }}
+              required
+            />
+          </div>
+          <div className="flex flex-col my-3">
+            <label className="font-bold pb-2" htmlFor="tags">
+              Tags
+            </label>
+            <input
+              className="rounded-md p-3"
+              type="text"
+              id="tags"
+              name="tags"
+              value={formData.tags}
+              onChange={handleInputChange}
+              placeholder="Enter tags separated by commas"
               required
             />
           </div>

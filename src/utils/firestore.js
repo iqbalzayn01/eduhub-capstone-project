@@ -23,19 +23,43 @@ async function getAllEvents() {
   }
 }
 
-async function addEvent() {
+// async function addEvent() {
+//   try {
+//     const docRef = await addDoc(collection(db, 'events'), {
+//       banner: 'whatisbanner?',
+//       tag: ['tag1', 'tag2', 'tag3'],
+//       title: 'this is title',
+//       date: Timestamp.fromDate(new Date()),
+//       id_talent: 'idtalent1',
+//       description: 'this is description',
+//       type: 'webinar',
+//       link: 'https://meet.google.com/',
+//       time_start: '15:00',
+//       time_end: '17:00',
+//       created_at: Timestamp.fromDate(new Date()),
+//     });
+//     console.log('Document written with ID: ', docRef.id);
+//   } catch (e) {
+//     console.error('Error adding document: ', e);
+//   }
+// }
+
+async function addEvent(formData) {
   try {
     const docRef = await addDoc(collection(db, 'events'), {
       banner: 'whatisbanner?',
-      tag: ['tag1', 'tag2', 'tag3'],
-      title: 'this is title',
-      date: Timestamp.fromDate(new Date()),
-      id_talent: 'idtalent1',
-      description: 'this is description',
-      type: 'webinar',
-      link: 'https://meet.google.com/',
-      time_start: '15:00',
-      time_end: '17:00',
+      tag: formData.tags.split(',').map((tag) => tag.trim()),
+      title: formData.title,
+      date: Timestamp.fromDate(new Date(formData.date)),
+      id_talent: formData.talent, //sementara
+      description: formData.description,
+      overview: formData.overview,
+      opportunities: formData.opportunities,
+      key_features: formData.keyFeatures,
+      type: formData.eventType,
+      link: formData.linkMeeting,
+      time_start: formData.timeStart,
+      time_end: formData.timeEnd,
       created_at: Timestamp.fromDate(new Date()),
     });
     console.log('Document written with ID: ', docRef.id);
