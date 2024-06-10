@@ -5,6 +5,7 @@ import Footer from '../../components/Footer';
 import { FiArrowUpRight } from 'react-icons/fi';
 import ReviewCard from '../../components/ReviewCard';
 import { getAllEvents, addEvent, deleteEvent, updateEvent } from '../../utils/firestore';
+import { signUp } from '../../utils/auth';
 
 export default function HomePage() {
   async function handleGetAllEvents() {
@@ -22,6 +23,10 @@ export default function HomePage() {
 
   async function handleDeleteEvent() {
     await deleteEvent('PKpbxUOIXzZ0zAF8AWko');
+  }
+
+  async function handleSignUp() {
+    await signUp('gasinn@gmail.com', 'password');
   }
 
   return (
@@ -89,7 +94,7 @@ export default function HomePage() {
                         <div className='flex gap-4 items-end text-2xl font-semibold'>
                           Event <FiArrowUpRight className='text-3xl' />
                         </div>
-                        <Button onClick={handleAddEvent}>Open</Button>
+                        <Button onClick={handleSignUp}>Open</Button>
                       </div>
                     </div>
                   </article>
