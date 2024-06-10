@@ -58,6 +58,7 @@ async function addEvent(formData) {
       key_features: formData.keyFeatures,
       type: formData.eventType,
       link: formData.linkMeeting,
+      location: formData.location,
       time_start: formData.timeStart,
       time_end: formData.timeEnd,
       created_at: Timestamp.fromDate(new Date()),

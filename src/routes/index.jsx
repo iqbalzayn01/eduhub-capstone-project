@@ -9,6 +9,7 @@ import SignIn from '../pages/signin';
 import HomePage from '../pages/home';
 import AddEvent from '../pages/addEvent';
 import DetailEvent from '../pages/detailEvent';
+import EventsList from '../pages/EventsList';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,7 +18,8 @@ export const router = createBrowserRouter(
       <Route path="/signup" element={<SignUp />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/addevent" element={<AddEvent />} />
-      <Route path="/detailevent" element={<DetailEvent />} />
+      <Route path="/event/:id" element={<DetailEvent />} />
+      <Route path="/eventslist" element={<EventsList />} />
     </>,
   ),
 );

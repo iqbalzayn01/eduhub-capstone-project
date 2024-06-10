@@ -53,19 +53,19 @@ export default function Footer() {
           <div className="flex space-x-[2.5rem]">
             <a
               href="#"
-              className="h-8 w-8 h-8 w-8 flex items-center justify-center text-2xl"
+              className="h-8 w-8 flex items-center justify-center text-2xl"
             >
               <FaXTwitter />
             </a>
             <a
               href="#"
-              className="h-8 w-8 h-8 w-8 flex items-center justify-center text-2xl"
+              className="h-8 w-8flex items-center justify-center text-2xl"
             >
               <FaLinkedin />
             </a>
             <a
               href="#"
-              className="h-8 w-8 h-8 w-8 flex items-center justify-center text-2xl"
+              className="h-8 w-8 flex items-center justify-center text-2xl"
             >
               <AiFillInstagram />
             </a>
