@@ -74,16 +74,16 @@ export default function AdminEvents() {
                   </span>
                   <div className='flex flex-col'>
                     <p className='font-semibold'>Jadwal:</p>
-                    <p>Start: {`${formatDate(event.date_start.toDate())}`}</p>
+                    <p>Start: {`${formatDate(event.time_start.toDate())}`}</p>
                     <p>
                       End:{' '}
-                      {`${formatDate(event.date_end !== undefined && event.date_end.toDate())}`}
+                      {`${formatDate(event.time_end !== undefined && event.time_end.toDate())}`}
                     </p>
                   </div>
                   <div className='flex items-start justify-between'>
                     <div className='flex flex-col gap-2'>
                       <p className='font-semibold'>Status Kegiatan:</p>
-                      {event.date_end.toDate() < Date.now() ? (
+                      {event.time_end.toDate() < Date.now() ? (
                         <p className='bg-gray-500 text-white text-center font-medium uppercase py-1 rounded-lg'>
                           FINISHED
                         </p>
@@ -95,7 +95,7 @@ export default function AdminEvents() {
                     </div>
                     <div className='flex flex-col gap-2'>
                       <p className='font-semibold'>Harga:</p>
-                      <p className='text-xl'>10.000</p>
+                      <p className='text-xl'>{event.price}</p>
                     </div>
                   </div>
                   <hr className='bg-slate-400 mt-4' />
@@ -121,7 +121,11 @@ export default function AdminEvents() {
       </main>
       {isModalOpen && (
         <EventModal
-          onClose={() => setIsModalOpen(false)}
+          onClose={async () => {
+            const newEvents = await getAllEvents();
+            setEvents(newEvents);
+            setIsModalOpen(false);
+          }}
           eventId={selectedEvent}
         />
       )}

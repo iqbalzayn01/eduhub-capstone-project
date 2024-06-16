@@ -10,15 +10,16 @@ export default function EventModal({ onClose, eventId }) {
     description: '',
     overview: '',
     opportunities: '',
-    features: '',
+    key_features: '',
     tags: '',
-    date_start: '',
-    date_end: '',
+    time_start: '',
+    time_end: '',
     reg_start: '',
     reg_end: '',
     link: '',
     price: '',
     type: '',
+    location: '',
   });
 
   useEffect(() => {
@@ -29,15 +30,16 @@ export default function EventModal({ onClose, eventId }) {
         description: event.description,
         overview: event.overview,
         opportunities: event.opportunities,
-        features: event.features,
-        tags: event.tags.join(',') ?? '',
-        date_start: TimestampToDateString(event.date_start),
-        date_end: TimestampToDateString(event.date_end),
+        key_features: event.key_features,
+        tags: event.tag.join(',') ?? '',
+        time_start: TimestampToDateString(event.time_start),
+        time_end: TimestampToDateString(event.time_end),
         reg_start: TimestampToDateString(event.reg_start),
         reg_end: TimestampToDateString(event.reg_end),
         link: event.link,
         price: event.price ?? '',
         type: event.type,
+        location: event.location,
       });
     }
 
@@ -50,37 +52,38 @@ export default function EventModal({ onClose, eventId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const {
       title,
       description,
       overview,
       opportunities,
-      features,
+      key_features,
       tags,
-      date_start,
-      date_end,
+      time_start,
+      time_end,
       reg_start,
       reg_end,
       link,
       price,
       type,
+      location,
     } = formData;
 
     if (
-      (!title ||
-        !overview ||
-        !opportunities ||
-        !features ||
-        !tags ||
-        !description ||
-        !date_start ||
-        !date_end ||
-        !reg_start ||
-        !reg_end ||
-        !link,
-      !price,
-      !type)
+      !title ||
+      !overview ||
+      !opportunities ||
+      !key_features ||
+      !tags ||
+      !description ||
+      !time_start ||
+      !time_end ||
+      !reg_start ||
+      !reg_end ||
+      !link ||
+      !price ||
+      !type ||
+      !location
     ) {
       setError('Semua input harus diisi!');
       return;
@@ -91,7 +94,6 @@ export default function EventModal({ onClose, eventId }) {
     } else {
       await addEvent(formData);
     }
-
     onClose();
   };
 
@@ -142,8 +144,8 @@ export default function EventModal({ onClose, eventId }) {
               <div className='mb-4'>
                 <label className='block mb-1'>Key Features</label>
                 <textarea
-                  name='features'
-                  value={formData.features}
+                  name='key_features'
+                  value={formData.key_features}
                   onChange={handleChange}
                   className='w-full p-2 border rounded'></textarea>
               </div>
@@ -183,8 +185,8 @@ export default function EventModal({ onClose, eventId }) {
                 <label className='block mb-1'>Waktu Acara Mulai</label>
                 <input
                   type='datetime-local'
-                  name='date_start'
-                  value={formData.date_start}
+                  name='time_start'
+                  value={formData.time_start}
                   onChange={handleChange}
                   className='w-full p-2 border rounded'
                 />
@@ -193,8 +195,8 @@ export default function EventModal({ onClose, eventId }) {
                 <label className='block mb-1'>Waktu Acara Selesai</label>
                 <input
                   type='datetime-local'
-                  name='date_end'
-                  value={formData.date_end}
+                  name='time_end'
+                  value={formData.time_end}
                   onChange={handleChange}
                   className='w-full p-2 border rounded'
                 />
@@ -227,6 +229,16 @@ export default function EventModal({ onClose, eventId }) {
                   type='text'
                   name='type'
                   value={formData.type}
+                  onChange={handleChange}
+                  className='w-full p-2 border rounded'
+                />
+              </div>
+              <div className='mb-4'>
+                <label className='block mb-1'>Location</label>
+                <input
+                  type='text'
+                  name='location'
+                  value={formData.location}
                   onChange={handleChange}
                   className='w-full p-2 border rounded'
                 />

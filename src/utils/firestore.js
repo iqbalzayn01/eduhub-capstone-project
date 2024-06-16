@@ -9,7 +9,6 @@ import {
   getDoc,
 } from 'firebase/firestore';
 import { db } from './firebase';
-import { dateStringToTimestamp } from './date';
 
 async function getAllEvents() {
   try {
@@ -28,7 +27,7 @@ async function getAllEvents() {
 async function getEvent(eventId) {
   const docRef = doc(db, 'events', eventId);
   const event = await getDoc(docRef);
-  console.log(event.data());
+
   return { id: event.id, ...event.data() };
 }
 
@@ -39,13 +38,15 @@ async function addEvent(formData) {
       description: formData.description,
       overview: formData.overview,
       opportunities: formData.opportunities,
-      features: formData.features,
-      tags: formData.tags.split(','),
-      date_start: dateStringToTimestamp(formData.date_start),
-      date_end: dateStringToTimestamp(formData.date_end),
-      reg_start: dateStringToTimestamp(formData.reg_start),
-      reg_end: dateStringToTimestamp(formData.reg_end),
-      id_talent: '',
+      key_features: formData.key_features,
+      tag: formData.tags.split(',').map((tag) => tag.trim()),
+      time_start: Timestamp.fromDate(new Date(formData.time_start)),
+      time_end: Timestamp.fromDate(new Date(formData.time_end)),
+      reg_start: Timestamp.fromDate(new Date(formData.reg_start)),
+      reg_end: Timestamp.fromDate(new Date(formData.reg_end)),
+      location: formData.location,
+      banner: 'banner.jpg',
+      id_talent: 'talent_masih_dalam_pengembangan',
       link: formData.link,
       price: formData.price,
       type: formData.type,
@@ -66,13 +67,15 @@ async function updateEvent(eventId, formData) {
       description: formData.description,
       overview: formData.overview,
       opportunities: formData.opportunities,
-      features: formData.features,
-      tags: formData.tags.split(','),
-      date_start: dateStringToTimestamp(formData.date_start),
-      date_end: dateStringToTimestamp(formData.date_end),
-      reg_start: dateStringToTimestamp(formData.reg_start),
-      reg_end: dateStringToTimestamp(formData.reg_end),
-      id_talent: '',
+      key_features: formData.key_features,
+      tag: formData.tags.split(',').map((tag) => tag.trim()),
+      time_start: Timestamp.fromDate(new Date(formData.time_start)),
+      time_end: Timestamp.fromDate(new Date(formData.time_end)),
+      reg_start: Timestamp.fromDate(new Date(formData.reg_start)),
+      reg_end: Timestamp.fromDate(new Date(formData.reg_end)),
+      location: formData.location,
+      banner: 'banner.jpg',
+      id_talent: 'talent_masih_dalam_pengembangan',
       link: formData.link,
       price: formData.price,
       type: formData.type,
@@ -93,4 +96,64 @@ async function deleteEvent(eventId) {
   }
 }
 
-export { getAllEvents, getEvent, addEvent, updateEvent, deleteEvent };
+async function getAllUsers() {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'users'));
+    const users = [];
+    querySnapshot.forEach((doc) => {
+      const user = { id: doc.id, ...doc.data() };
+      users.push(user);
+    });
+    return users;
+  } catch (e) {
+    console.error('Error getting users: ' + e.message);
+  }
+}
+
+async function getUser(userId) {
+  const docRef = doc(db, 'users', userId);
+  const user = await getDoc(docRef);
+
+  return { id: user.id, ...user.data() };
+}
+
+async function addUser(formData) {
+  try {
+    await addDoc(collection(db, 'users'), { formData });
+    return alert('Successfully added user!');
+  } catch (e) {
+    console.error('Error adding document: ', e);
+  }
+}
+
+async function updateUser(userId, formData) {
+  try {
+    const docRef = doc(db, 'users', userId);
+    await updateDoc(docRef, { formData });
+    alert('Successfully updated user!');
+  } catch (e) {
+    console.error('Error updating user: ', e.message);
+  }
+}
+
+async function deleteUser(userId) {
+  try {
+    await deleteDoc(doc(db, 'users', userId));
+    console.log('Deleted user: ', userId);
+  } catch (e) {
+    console.error('Error deleting user: ' + userId.message);
+  }
+}
+
+export {
+  getAllEvents,
+  getEvent,
+  addEvent,
+  updateEvent,
+  deleteEvent,
+  getAllUsers,
+  getUser,
+  addUser,
+  updateUser,
+  deleteUser,
+};
