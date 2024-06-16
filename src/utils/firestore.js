@@ -8,6 +8,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { db } from './firebase';
+import { dateStringToTimestamp } from './date';
 
 async function getAllEvents() {
   try {
@@ -17,28 +18,32 @@ async function getAllEvents() {
       const event = { id: doc.id, ...doc.data() };
       events.push(event);
     });
-    console.log(events);
+    return events;
   } catch (e) {
     console.error('Error getting events: ' + e.message);
   }
 }
 
-async function addEvent() {
+async function addEvent(formData) {
   try {
-    const docRef = await addDoc(collection(db, 'events'), {
-      banner: 'whatisbanner?',
-      tag: ['tag1', 'tag2', 'tag3'],
-      title: 'this is title',
-      date: Timestamp.fromDate(new Date()),
-      id_talent: 'idtalent1',
-      description: 'this is description',
-      type: 'webinar',
-      link: 'https://meet.google.com/',
-      time_start: '15:00',
-      time_end: '17:00',
+    await addDoc(collection(db, 'events'), {
+      title: formData.title,
+      description: formData.description,
+      overview: formData.overview,
+      opportunities: formData.opportunities,
+      features: formData.features,
+      tag: 'tes',
+      date_start: dateStringToTimestamp(formData.date_start),
+      date_end: dateStringToTimestamp(formData.date_end),
+      reg_start: dateStringToTimestamp(formData.reg_start),
+      reg_end: dateStringToTimestamp(formData.reg_end),
+      id_talent: '',
+      link: formData.link,
+      price: formData.price,
+      type: formData.type,
       created_at: Timestamp.fromDate(new Date()),
     });
-    console.log('Document written with ID: ', docRef.id);
+    return alert('Successfully added event!');
   } catch (e) {
     console.error('Error adding document: ', e);
   }
