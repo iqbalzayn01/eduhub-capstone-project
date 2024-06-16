@@ -10,7 +10,6 @@ import { formatDate } from '../../../utils/date';
 export default function AdminEvents() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -24,6 +23,11 @@ export default function AdminEvents() {
 
   const handleCreateEvent = () => {
     setSelectedEvent(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditEvent = (eventId) => {
+    setSelectedEvent(eventId);
     setIsModalOpen(true);
   };
 
@@ -98,8 +102,7 @@ export default function AdminEvents() {
                   <div className='flex items-center gap-2'>
                     <button
                       className='bg-blue-500 text-white px-2 py-1 rounded'
-                      // onClick={() => handleEdit(event)}
-                    >
+                      onClick={() => handleEditEvent(event.id)}>
                       Edit
                     </button>
                     <button
@@ -119,8 +122,7 @@ export default function AdminEvents() {
       {isModalOpen && (
         <EventModal
           onClose={() => setIsModalOpen(false)}
-          isEdit={isEdit}
-          eventData={selectedEvent}
+          eventId={selectedEvent}
         />
       )}
     </div>

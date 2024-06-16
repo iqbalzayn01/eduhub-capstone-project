@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { addEvent } from '../../../utils/firestore';
+import { addEvent, getEvent, updateEvent } from '../../../utils/firestore';
+import { TimestampToDateString } from '../../../utils/date';
 
-export default function EventModal({ onClose, isEdit, eventData }) {
+export default function EventModal({ onClose, eventId }) {
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     title: '',
@@ -21,12 +22,27 @@ export default function EventModal({ onClose, isEdit, eventData }) {
   });
 
   useEffect(() => {
-    if (isEdit && eventData) {
+    async function fetchEvent() {
+      const event = await getEvent(eventId);
       setFormData({
-        ...eventData,
+        title: event.title,
+        description: event.description,
+        overview: event.overview,
+        opportunities: event.opportunities,
+        features: event.features,
+        tags: event.tags.join(',') ?? '',
+        date_start: TimestampToDateString(event.date_start),
+        date_end: TimestampToDateString(event.date_end),
+        reg_start: TimestampToDateString(event.reg_start),
+        reg_end: TimestampToDateString(event.reg_end),
+        link: event.link,
+        price: event.price ?? '',
+        type: event.type,
       });
     }
-  }, [isEdit, eventData]);
+
+    if (eventId) fetchEvent();
+  }, [eventId]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -70,8 +86,8 @@ export default function EventModal({ onClose, isEdit, eventData }) {
       return;
     }
 
-    if (eventData) {
-      console.log('update data:', eventData, formData);
+    if (eventId) {
+      await updateEvent(eventId, formData);
     } else {
       await addEvent(formData);
     }
@@ -83,7 +99,9 @@ export default function EventModal({ onClose, isEdit, eventData }) {
     <div className='fixed inset-0 overflow-y-auto flex items-center justify-center bg-gray-800 bg-opacity-50'>
       <form onSubmit={handleSubmit}>
         <div className='bg-white p-8 rounded-lg shadow-md '>
-          <h2 className='text-xl mb-4 font-semibold'>{isEdit ? 'Edit Event' : 'Add New Event'}</h2>
+          <h2 className='text-xl mb-4 font-semibold'>
+            {eventId !== null ? 'Edit Event' : 'Add New Event'}
+          </h2>
           <div className='flex gap-8'>
             <div className='flex-1 w-72'>
               {error && <p className='text-red-500 mb-4'>{error}</p>}
@@ -146,6 +164,7 @@ export default function EventModal({ onClose, isEdit, eventData }) {
                 <input
                   type='datetime-local'
                   name='reg_start'
+                  value={formData.reg_start}
                   onChange={handleChange}
                   className='w-full p-2 border rounded'
                 />
@@ -155,7 +174,7 @@ export default function EventModal({ onClose, isEdit, eventData }) {
                 <input
                   type='datetime-local'
                   name='reg_end'
-                  // value={schedule.date_end}
+                  value={formData.reg_end}
                   onChange={handleChange}
                   className='w-full p-2 border rounded'
                 />
@@ -165,6 +184,7 @@ export default function EventModal({ onClose, isEdit, eventData }) {
                 <input
                   type='datetime-local'
                   name='date_start'
+                  value={formData.date_start}
                   onChange={handleChange}
                   className='w-full p-2 border rounded'
                 />
@@ -174,6 +194,7 @@ export default function EventModal({ onClose, isEdit, eventData }) {
                 <input
                   type='datetime-local'
                   name='date_end'
+                  value={formData.date_end}
                   onChange={handleChange}
                   className='w-full p-2 border rounded'
                 />
