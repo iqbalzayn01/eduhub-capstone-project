@@ -1,41 +1,67 @@
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
-
-import { signUp } from '../../utils/auth';
-import { db } from '../../utils/firebase';
-import { doc, setDoc } from 'firebase/firestore';
-
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import FormSignUp from './formSignUp';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
-    // firstName: '',
-    // lastName: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
+    password2: '',
+    role: '',
   });
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const navigate = useNavigate();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleGoogleRegister = async (e) => {
     e.preventDefault();
+    const { firstName, lastName, email, password, password2, role } = formData;
+
+    if (!email || !password || !password2 || !firstName || !lastName) {
+      return alert('Silakan lengkapi data');
+    }
+
+    if (password !== password2) {
+      return alert('Password harus sama');
+    }
+
+    if (password.length < 6) {
+      return alert('Password harus lebih dari 6 karakter');
+    }
+
+    const auth = getAuth();
+    const db = getFirestore();
+
     try {
-      const userCredential = await signUp(formData.email, formData.password);
-      const user = userCredential.user;
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      const user = result.user;
+
+      // Simpan informasi pengguna ke Firestore
       await setDoc(doc(db, 'users', user.uid), {
-        // firstName: formData.firstName,
-        // lastName: formData.lastName,
-        email: formData.email,
+        firstName,
+        lastName,
+        email,
+        is_admin: false,
+        role,
       });
-      alert('Registration successful!');
-    } catch (error) {
-      console.error('Error creating user:', error);
-      alert('Error creating user: ' + error.message);
+
+      // Simpan informasi pengguna ke local storage
+      localStorage.setItem('user', JSON.stringify(user));
+      navigate('/signin');
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -49,10 +75,10 @@ export default function SignUp() {
           backgroundPosition: 'center',
           objectFit: 'cover',
         }}>
-        <p className='text-3xl text-colorprimary font-extrabold'>EduHub.</p>
+        <p className='text-3xl text-colorprimary font-extrabold'>InsightGathers.</p>
         <div className='flex items-end justify-between'>
           <span className='copyright w-1/3 text-colorprimary font-medium'>
-            Copyright © 2024 EduHub All Right Reserved
+            Copyright © 2024 InsightGathers All Right Reserved
           </span>
           <ul className='flex gap-5'>
             <li>
@@ -79,16 +105,16 @@ export default function SignUp() {
           technology.
         </p>
         <FormSignUp
-          className="mb-20"
-          handleSubmit={handleSubmit}
-          onChange={handleChange}
-          valueFirstName={formData.firstName}
-          valueLastName={formData.lastName}
+          className='mb-20'
+          handleSubmit={handleGoogleRegister}
+          onChange={handleInputChange}
+          valueName={formData.firstName + ' ' + formData.lastName}
           valueEmail={formData.email}
           valuePassword={formData.password}
+          valuePassword2={formData.password2}
           valueRole={formData.role}
         />
-        <span className="text-lg text-colorgray font-medium">
+        <span className='text-lg text-colorgray font-medium'>
           Already have an account?{' '}
           <Link
             to='/signin'
