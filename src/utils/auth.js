@@ -3,7 +3,8 @@ import { auth } from './firebase';
 
 export const signUp = async (email, password) => {
   try {
-    await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    console.log(userCredential.user);
   } catch (error) {
     console.log('error creating user: ' + error.message);
   }

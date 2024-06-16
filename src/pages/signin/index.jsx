@@ -30,26 +30,23 @@ export default function SignIn() {
   };
 
   return (
-    <div className="grid grid-cols-2 w-full h-screen">
+    <div className='grid grid-cols-2 w-full h-screen'>
       <div
-        className="flex flex-col justify-between p-10"
+        className='flex flex-col justify-between p-10'
         style={{
           backgroundImage: `url('./images/img-signin.png')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           objectFit: 'cover',
-        }}
-      >
-        <p className="text-3xl text-colorprimary font-extrabold">
-          InsightGathers.
-        </p>
-        <div className="flex flex-col gap-40">
-          <p className="text-3xl text-white font-medium">
-            We provide various top-notch events to help you enhance your skills
-            in the field of technology.
+        }}>
+        <p className='text-3xl text-colorprimary font-extrabold'>EduHub.</p>
+        <div className='flex flex-col gap-40'>
+          <p className='text-3xl text-white font-medium'>
+            We provide various top-notch events to help you enhance your skills in the field of
+            technology.
           </p>
-          <span className="copyright w-1/3 text-colorprimary font-medium">
-            Copyright © 2024 InsightGathers All Right Reserved
+          <span className='copyright w-1/3 text-colorprimary font-medium'>
+            Copyright © 2024 EduHub All Right Reserved
           </span>
         </div>
       </div>
@@ -75,13 +72,16 @@ export default function SignIn() {
             </Link>
           </span>
         </div>
-        <ul className="self-end flex items-end gap-5">
+        <ul className='self-end flex items-end gap-5'>
           <li>
-            <Link to="#terms-of-service" className="font-semibold">
+            <Link
+              to='#terms-of-service'
+              className='font-semibold'>
               Terms of Service
             </Link>
           </li>
           <li>
+
             <Link to="#privacy-police" className="font-semibold">
               Privacy Policy
             </Link>
