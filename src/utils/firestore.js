@@ -119,7 +119,12 @@ async function getUser(userId) {
 
 async function addUser(formData) {
   try {
-    await addDoc(collection(db, 'users'), { formData });
+    await addDoc(collection(db, 'users'), {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      is_admin: formData.is_admin === 'admin' ? true : false,
+    });
     return alert('Successfully added user!');
   } catch (e) {
     console.error('Error adding document: ', e);
@@ -127,9 +132,15 @@ async function addUser(formData) {
 }
 
 async function updateUser(userId, formData) {
+  console.log(formData);
   try {
     const docRef = doc(db, 'users', userId);
-    await updateDoc(docRef, { formData });
+    await updateDoc(docRef, {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      is_admin: formData.is_admin === 'admin' ? true : false,
+    });
     alert('Successfully updated user!');
   } catch (e) {
     console.error('Error updating user: ', e.message);

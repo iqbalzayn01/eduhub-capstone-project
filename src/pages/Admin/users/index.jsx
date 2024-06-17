@@ -4,7 +4,7 @@ import SButton from '../../../components/Admin/Button';
 import Sidebar from '../../../components/Admin/Sidebar';
 import Topbar from '../../../components/Admin/Topbar/Topbar';
 import UserModal from './userModal';
-import { getAllUsers } from '../../../utils/firestore';
+import { deleteUser, getAllUsers } from '../../../utils/firestore';
 
 export default function AdminUser() {
   const [selectedUser, setSelectedUser] = useState(null);
@@ -12,17 +12,29 @@ export default function AdminUser() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    async function fetchUsers() {
-      const fetchedUsers = await getAllUsers();
-      setUsers(fetchedUsers);
-    }
-
     fetchUsers();
   }, []);
+
+  async function fetchUsers() {
+    const fetchedUsers = await getAllUsers();
+    setUsers(fetchedUsers);
+  }
 
   const handleCreateUser = () => {
     setSelectedUser(null);
     setIsModalOpen(true);
+  };
+
+  const handleEditUser = (userId) => {
+    setSelectedUser(userId);
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteUser = async (userId) => {
+    const isDelete = confirm('Are you sure you want to delete this user?');
+    if (!isDelete) return;
+    await deleteUser(userId);
+    await fetchUsers();
   };
 
   return (
@@ -64,14 +76,14 @@ export default function AdminUser() {
                     <td className='px-4 py-2'>
                       <button
                         className='bg-blue-500 text-white px-2 py-1 rounded mr-2'
-                        // onClick={() => handleEdit(talent)}
-                      >
+                        onClick={() => handleEditUser(user.id)}>
                         Edit
                       </button>
                       <button
                         className='bg-red-500 text-white px-2 py-1 rounded'
-                        // onClick={handlePopUpDelete}
-                      >
+                        onClick={() => {
+                          handleDeleteUser(user.id);
+                        }}>
                         Hapus
                       </button>
                     </td>
@@ -84,9 +96,12 @@ export default function AdminUser() {
       </main>
       {isModalOpen && (
         <UserModal
-          onClose={() => setIsModalOpen(false)}
-          // isEdit={isEdit}
-          userData={selectedUser}
+          userId={selectedUser}
+          onClose={async () => {
+            setIsModalOpen(false);
+            const newUsers = await getAllUsers();
+            setUsers(newUsers);
+          }}
         />
       )}
     </div>
