@@ -15,6 +15,7 @@ import AdminDashboard from './pages/Admin/dashboard';
 import AdminEvents from './pages/Admin/events';
 import AdminUser from './pages/Admin/users';
 import AdminAddEvent from './pages/Admin/addEvent';
+import AdminTalents from './pages/Admin/talents';
 
 export default function App() {
   const [loginStatus, setLoginStatus] = useState(false);
@@ -99,6 +100,10 @@ export default function App() {
             <Route
               path='/admin-alluser'
               element={<AdminUser />}
+            />
+            <Route
+              path='/admin-alltalent'
+              element={<AdminTalents />}
             />
             <Route
               path='/admin-addevent'

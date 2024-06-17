@@ -7,9 +7,16 @@ import {
   doc,
   updateDoc,
   getDoc,
+  getCountFromServer,
 } from 'firebase/firestore';
 import { db } from './firebase';
+import { signUp } from './auth';
 
+async function getTotalDocuments(collectionName) {
+  const coll = collection(db, collectionName);
+  const snapshot = await getCountFromServer(coll);
+  return snapshot.data().count;
+}
 async function getAllEvents() {
   try {
     const querySnapshot = await getDocs(collection(db, 'events'));
@@ -34,6 +41,7 @@ async function getEvent(eventId) {
 async function addEvent(formData) {
   try {
     await addDoc(collection(db, 'events'), {
+      isComplate: false,
       title: formData.title,
       description: formData.description,
       overview: formData.overview,
@@ -46,7 +54,7 @@ async function addEvent(formData) {
       reg_end: Timestamp.fromDate(new Date(formData.reg_end)),
       location: formData.location,
       banner: 'banner.jpg',
-      id_talent: 'talent_masih_dalam_pengembangan',
+      id_talent: formData.id_talent,
       link: formData.link,
       price: formData.price,
       type: formData.type,
@@ -63,6 +71,7 @@ async function updateEvent(eventId, formData) {
     console.log(eventId);
     const docRef = doc(db, 'events', eventId);
     await updateDoc(docRef, {
+      isComplate: false,
       title: formData.title,
       description: formData.description,
       overview: formData.overview,
@@ -75,7 +84,7 @@ async function updateEvent(eventId, formData) {
       reg_end: Timestamp.fromDate(new Date(formData.reg_end)),
       location: formData.location,
       banner: 'banner.jpg',
-      id_talent: 'talent_masih_dalam_pengembangan',
+      id_talent: formData.id_talent,
       link: formData.link,
       price: formData.price,
       type: formData.type,
@@ -125,6 +134,7 @@ async function addUser(formData) {
       phone: formData.phone,
       is_admin: formData.is_admin === 'admin' ? true : false,
     });
+    await signUp(formData.email, formData.password);
     return alert('Successfully added user!');
   } catch (e) {
     console.error('Error adding document: ', e);
@@ -132,7 +142,6 @@ async function addUser(formData) {
 }
 
 async function updateUser(userId, formData) {
-  console.log(formData);
   try {
     const docRef = doc(db, 'users', userId);
     await updateDoc(docRef, {
@@ -156,7 +165,67 @@ async function deleteUser(userId) {
   }
 }
 
+async function getAllTalents() {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'talents'));
+    const talents = [];
+    querySnapshot.forEach((doc) => {
+      const talent = { id: doc.id, ...doc.data() };
+      talents.push(talent);
+    });
+    return talents;
+  } catch (e) {
+    console.error('Error getting talents: ' + e.message);
+  }
+}
+
+async function getTalent(talentId) {
+  const docRef = doc(db, 'talents', talentId);
+  const talent = await getDoc(docRef);
+
+  return { id: talent.id, ...talent.data() };
+}
+
+async function addTalent(formData) {
+  try {
+    await addDoc(collection(db, 'talents'), {
+      name: formData.name,
+      email: formData.email,
+      job: formData.job,
+      phone: formData.phone,
+    });
+    return alert('Successfully added talent!');
+  } catch (e) {
+    console.error('Error adding document: ', e);
+  }
+}
+
+async function updateTalent(talentId, formData) {
+  try {
+    const docRef = doc(db, 'talents', talentId);
+    await updateDoc(docRef, {
+      name: formData.name,
+      email: formData.email,
+      job: formData.job,
+      phone: formData.phone,
+    });
+    alert('Successfully updated talent!');
+  } catch (e) {
+    console.error('Error updating talent: ', e.message);
+  }
+}
+
+async function deleteTalent(talentId) {
+  try {
+    await deleteDoc(doc(db, 'talents', talentId));
+    console.log('Deleted talent: ', talentId);
+  } catch (e) {
+    console.error('Error deleting talent: ' + talentId.message);
+  }
+}
+
 export {
+  getTotalDocuments,
   getAllEvents,
   getEvent,
   addEvent,
@@ -167,4 +236,9 @@ export {
   addUser,
   updateUser,
   deleteUser,
+  getAllTalents,
+  getTalent,
+  addTalent,
+  updateTalent,
+  deleteTalent,
 };

@@ -4,7 +4,7 @@ import SButton from '../../../components/Admin/Button';
 import Sidebar from '../../../components/Admin/Sidebar';
 import Topbar from '../../../components/Admin/Topbar/Topbar';
 import EventModal from './eventModal';
-import { deleteEvent, getAllEvents } from '../../../utils/firestore';
+import { deleteEvent, getAllEvents, getAllTalents } from '../../../utils/firestore';
 import { formatDate } from '../../../utils/date';
 
 export default function AdminEvents() {
@@ -17,7 +17,11 @@ export default function AdminEvents() {
   }, []);
 
   const fetchEvents = async () => {
-    const fetchedEvents = await getAllEvents();
+    const talents = await getAllTalents();
+    let fetchedEvents = await getAllEvents();
+    fetchedEvents = fetchedEvents.map((event) => {
+      return { ...event, talent: talents.find((talent) => talent.id === event.id_talent) };
+    });
     setEvents(fetchedEvents);
   };
 
@@ -34,6 +38,7 @@ export default function AdminEvents() {
   const handleDeleteEvent = async (eventId) => {
     const isDelete = confirm('Are you sure you want to delete this event?');
     if (!isDelete) return;
+
     await deleteEvent(eventId);
     await fetchEvents();
   };
@@ -62,7 +67,7 @@ export default function AdminEvents() {
                   <p>{event.title}</p>
                   <hr />
                   <p className='font-semibold'>Nama Pembicara</p>
-                  <p>{event.id_talent}</p>
+                  <p>{event.talent.name}</p>
                   <p className='font-semibold'>Link Zoom</p>
                   <span>
                     <a
@@ -84,12 +89,12 @@ export default function AdminEvents() {
                     <div className='flex flex-col gap-2'>
                       <p className='font-semibold'>Status Kegiatan:</p>
                       {event.time_end.toDate() < Date.now() ? (
-                        <p className='bg-gray-500 text-white text-center font-medium uppercase py-1 rounded-lg'>
-                          FINISHED
-                        </p>
-                      ) : (
                         <p className='bg-emerald-500 text-white text-center font-medium uppercase py-1 rounded-lg'>
                           ACTIVE
+                        </p>
+                      ) : (
+                        <p className=' bg-gray-500 text-white text-center font-medium uppercase py-1 rounded-lg'>
+                          FINISHED
                         </p>
                       )}
                     </div>
@@ -122,8 +127,7 @@ export default function AdminEvents() {
       {isModalOpen && (
         <EventModal
           onClose={async () => {
-            const newEvents = await getAllEvents();
-            setEvents(newEvents);
+            fetchEvents();
             setIsModalOpen(false);
           }}
           eventId={selectedEvent}
