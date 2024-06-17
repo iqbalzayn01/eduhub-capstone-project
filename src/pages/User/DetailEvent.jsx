@@ -76,6 +76,7 @@ const DetailEvent = () => {
           title: event.title,
           isComplate: event.isComplate,
           date: formatDate(event.time_start),
+          link: event.link,
         }),
       });
       console.log('Successfully updated user document with joined event.');
@@ -99,6 +100,7 @@ const DetailEvent = () => {
           id: id,
           title: event.title,
           isComplate: event.isComplate,
+          link: event.link,
           date: formatDate(event.time_start),
         }),
       });

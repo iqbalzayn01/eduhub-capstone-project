@@ -1,25 +1,29 @@
 import { useEffect, useState } from 'react';
-// import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { addUser, getUser, updateUser } from '../../../utils/firestore';
 
-// import { fetchCreateEvent, fetchUpdateEvent } from '../../redux/events/actions';
-
-export default function UserModal({ onClose, isEdit, userData }) {
+export default function UserModal({ userId, onClose }) {
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    no_telp: '',
+    phone: '',
+    is_admin: '',
   });
-  // const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isEdit && userData) {
+    async function fetchUser() {
+      const user = await getUser(userId);
       setFormData({
-        ...userData,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        is_admin: user.is_admin ? 'admin' : 'user',
       });
     }
-  }, [isEdit, userData]);
+
+    if (userId) fetchUser();
+  }, [userId]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,19 +32,18 @@ export default function UserModal({ onClose, isEdit, userData }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { name, email, no_telp } = formData;
+    const { name, email, phone } = formData;
 
-    if (!name || !email || !no_telp) {
+    if (!name || !email || !phone) {
       setError('Semua data harus diisi');
+
       return;
     }
 
-    if (userData) {
-      // dispatch(fetchUpdateEvent(userData._id, formData));
-      console.log('update data:', userData._id, formData);
+    if (userId) {
+      await updateUser(userId, formData);
     } else {
-      // dispatch(fetchCreateEvent(formData));
-      console.log('create user:', userData._id, formData);
+      await addUser(formData);
     }
 
     onClose();
@@ -50,7 +53,7 @@ export default function UserModal({ onClose, isEdit, userData }) {
     <div className="fixed inset-0 overflow-y-auto flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div className="bg-white p-8 rounded-lg shadow-md w-1/3">
         <h2 className="text-xl mb-4">
-          {isEdit ? 'Edit Event' : 'Tambah Event Baru'}
+          {userId ? 'Edit User' : 'Tambah User Baru'}
         </h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
@@ -80,12 +83,27 @@ export default function UserModal({ onClose, isEdit, userData }) {
             <label className="block mb-1">Nomor Telepon</label>
             <input
               type="text"
-              name="no_telp"
-              value={formData.no_telp}
+              name="phone"
+              value={formData.phone}
               onChange={handleChange}
               className="w-full p-2 border rounded"
               required
             />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="is_admin" className="block mb-1">
+              Pilih role
+            </label>
+            <select
+              name="is_admin"
+              id="is_admin"
+              className="w-full p-2 border rounded"
+              value={formData.is_admin}
+              onChange={handleChange}
+            >
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
           </div>
           <div className="flex justify-end">
             <button
@@ -109,7 +127,6 @@ export default function UserModal({ onClose, isEdit, userData }) {
 }
 
 UserModal.propTypes = {
+  userId: PropTypes.string,
   onClose: PropTypes.func.isRequired,
-  isEdit: PropTypes.bool,
-  userData: PropTypes.object,
 };
