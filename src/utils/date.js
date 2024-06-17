@@ -1,5 +1,3 @@
-import { Timestamp } from 'firebase/firestore';
-
 const formatDate = (date) => {
   return Intl.DateTimeFormat('en-GB', {
     day: '2-digit',
@@ -9,10 +7,6 @@ const formatDate = (date) => {
     minute: '2-digit',
     hour12: false,
   }).format(date);
-};
-
-const dateStringToTimestamp = (dateString) => {
-  return Timestamp.fromDate(new Date(Date.parse(dateString)));
 };
 
 const TimestampToDateString = (timestamp) => {
@@ -26,4 +20,4 @@ const TimestampToDateString = (timestamp) => {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
-export { formatDate, dateStringToTimestamp, TimestampToDateString };
+export { formatDate, TimestampToDateString };
