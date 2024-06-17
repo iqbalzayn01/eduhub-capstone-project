@@ -7,10 +7,16 @@ import {
   doc,
   updateDoc,
   getDoc,
+  getCountFromServer,
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { signUp } from './auth';
 
+async function getTotalDocuments(collectionName) {
+  const coll = collection(db, collectionName);
+  const snapshot = await getCountFromServer(coll);
+  return snapshot.data().count;
+}
 async function getAllEvents() {
   try {
     const querySnapshot = await getDocs(collection(db, 'events'));
@@ -48,7 +54,7 @@ async function addEvent(formData) {
       reg_end: Timestamp.fromDate(new Date(formData.reg_end)),
       location: formData.location,
       banner: 'banner.jpg',
-      id_talent: 'talent_masih_dalam_pengembangan',
+      id_talent: formData.id_talent,
       link: formData.link,
       price: formData.price,
       type: formData.type,
@@ -78,7 +84,7 @@ async function updateEvent(eventId, formData) {
       reg_end: Timestamp.fromDate(new Date(formData.reg_end)),
       location: formData.location,
       banner: 'banner.jpg',
-      id_talent: 'talent_masih_dalam_pengembangan',
+      id_talent: formData.id_talent,
       link: formData.link,
       price: formData.price,
       type: formData.type,
@@ -219,6 +225,7 @@ async function deleteTalent(talentId) {
 }
 
 export {
+  getTotalDocuments,
   getAllEvents,
   getEvent,
   addEvent,

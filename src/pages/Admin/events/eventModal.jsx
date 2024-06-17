@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { addEvent, getEvent, updateEvent } from '../../../utils/firestore';
+import { addEvent, getAllTalents, getEvent, updateEvent } from '../../../utils/firestore';
 import { TimestampToDateString } from '../../../utils/date';
 
 export default function EventModal({ onClose, eventId }) {
@@ -16,11 +16,13 @@ export default function EventModal({ onClose, eventId }) {
     time_end: '',
     reg_start: '',
     reg_end: '',
+    id_talent: '',
     link: '',
     price: '',
     type: '',
     location: '',
   });
+  const [talents, setTalents] = useState([]);
 
   useEffect(() => {
     async function fetchEvent() {
@@ -36,12 +38,20 @@ export default function EventModal({ onClose, eventId }) {
         time_end: TimestampToDateString(event.time_end),
         reg_start: TimestampToDateString(event.reg_start),
         reg_end: TimestampToDateString(event.reg_end),
+        id_talent: event.id_talent,
         link: event.link,
         price: event.price ?? '',
         type: event.type,
         location: event.location,
       });
     }
+
+    async function fetchTalents() {
+      const fetchedTalents = await getAllTalents();
+      setTalents(fetchedTalents);
+    }
+
+    fetchTalents();
 
     if (eventId) fetchEvent();
   }, [eventId]);
@@ -63,6 +73,7 @@ export default function EventModal({ onClose, eventId }) {
       time_end,
       reg_start,
       reg_end,
+      id_talent,
       link,
       price,
       type,
@@ -158,6 +169,22 @@ export default function EventModal({ onClose, eventId }) {
                   onChange={handleChange}
                   className='w-full p-2 border rounded'
                 />
+              </div>
+              <div>
+                <select
+                  name='id_talent'
+                  id='id_talent'
+                  className='w-full p-2 border rounded'
+                  value={formData.id_talent}
+                  onChange={handleChange}>
+                  {talents.map((talent) => (
+                    <option
+                      value={talent.id}
+                      key={talent.id}>
+                      {talent.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             <div className='flex-1 w-72'>
