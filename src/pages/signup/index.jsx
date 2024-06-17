@@ -110,7 +110,7 @@ export default function SignUp() {
           </ul>
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center gap-10">
+      <div className="flex flex-col items-center justify-between p-10 gap-10">
         <h1 className="w-4/5 text-center text-5xl font-semibold">
           Expand Your Knowledge & Skills
         </h1>

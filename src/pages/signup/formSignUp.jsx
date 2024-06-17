@@ -15,7 +15,7 @@ const FormSignUp = ({
     <div className="">
       <form
         onSubmit={handleSubmit}
-        className={`flex flex-col gap-5 ${className}`}
+        className={`flex flex-col w-full gap-5  ${className}`}
       >
         <div>
           <input
@@ -39,27 +39,29 @@ const FormSignUp = ({
             required
           />
         </div>
-        <div>
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={valuePassword}
-            onChange={onChange}
-            className="w-full bg-transparent p-2 border border-colorgray rounded-xl"
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            name="password2"
-            placeholder="Confirm Password"
-            value={valuePassword2}
-            onChange={onChange}
-            className="w-full bg-transparent p-2 border border-colorgray rounded-xl"
-            required
-          />
+        <div className="flex justify-stretch gap-5">
+          <div>
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={valuePassword}
+              onChange={onChange}
+              className="w-full bg-transparent p-2 border border-colorgray rounded-xl"
+              required
+            />
+          </div>
+          <div>
+            <input
+              type="password"
+              name="password2"
+              placeholder="Confirm Password"
+              value={valuePassword2}
+              onChange={onChange}
+              className="w-full bg-transparent p-2 border border-colorgray rounded-xl"
+              required
+            />
+          </div>
         </div>
         <div>
           <input
