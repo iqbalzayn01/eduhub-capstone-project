@@ -6,10 +6,16 @@ import { db } from '../../utils/firebase';
 
 import Navbar from '../../components/User/Navbar';
 import Footer from '../../components/User/Footer';
+import { Link } from 'react-router-dom';
+// import { addEventToFirestore } from '../../components/faker';
 
 export default function DashboardUser() {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // useEffect(() => {
+  //   addEventToFirestore();
+  // }, []);
 
   useEffect(() => {
     const auth = getAuth();
@@ -51,11 +57,11 @@ export default function DashboardUser() {
   }
 
   return (
-    <div className="container mx-auto px-5">
+    <div className="lg:mx-[4rem] sm:max-sm mx-[1rem] py-[1rem]">
       <Navbar />
       <main className="grid grid-cols-3 gap-10 mb-10">
         {/* Grid col 1 */}
-        <div className="col-span-1 p-5 border border-gray-400 rounded-xl">
+        <div className="col-span-1 p-5 border border-gray-400 rounded-xl pt-14">
           <div className="flex flex-col items-center mb-10">
             <img
               src="/images/person3.png"
@@ -111,7 +117,10 @@ export default function DashboardUser() {
                       <h5 className="font-semibold text-[#CDFE05] text-3xl">
                         {event.title}
                       </h5>
-                      <p className="text-white text-xl">{event.link}</p>
+                      <Link className="text-white" to={event.link}>
+                        {event.link}
+                      </Link>
+                      {/* <p className="text-white text-xl">{event.link}</p> */}
                       <p className="text-white">{event.date}</p>
                     </div>
                   </div>

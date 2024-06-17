@@ -21,7 +21,7 @@ const CardEvent = ({ event }) => {
               Event <FiArrowUpRight className="text-3xl" />
             </div>
             <Link to={`/event/${event.id}`}>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
+              <button className="bg-[#CDFE05] text-black font-semibold px-4 py-2 rounded-lg">
                 Open
               </button>
             </Link>
