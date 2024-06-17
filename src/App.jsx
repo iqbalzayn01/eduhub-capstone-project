@@ -15,6 +15,7 @@ import AdminDashboard from './pages/Admin/dashboard';
 import AdminEvents from './pages/Admin/events';
 import AdminUser from './pages/Admin/users';
 import AdminAddEvent from './pages/Admin/addEvent';
+import AdminTalents from './pages/Admin/talents';
 
 export default function App() {
   const [loginStatus, setLoginStatus] = useState(false);
@@ -88,31 +89,80 @@ export default function App() {
       {isAdmin ? (
         loginStatus ? (
           <>
-            <Route path="/*" element={<AdminDashboard />} />
-            <Route path="/admin-allevent" element={<AdminEvents />} />
-            <Route path="/admin-alluser" element={<AdminUser />} />
-            <Route path="/admin-addevent" element={<AdminAddEvent />} />
+            <Route
+              path='/*'
+              element={<AdminDashboard />}
+            />
+            <Route
+              path='/admin-allevent'
+              element={<AdminEvents />}
+            />
+            <Route
+              path='/admin-alluser'
+              element={<AdminUser />}
+            />
+            <Route
+              path='/admin-alltalent'
+              element={<AdminTalents />}
+            />
+            <Route
+              path='/admin-addevent'
+              element={<AdminAddEvent />}
+            />
           </>
         ) : (
           <>
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/signin" element={<SignIn />} />
+            <Route
+              path='/signup'
+              element={<SignUp />}
+            />
+            <Route
+              path='/signin'
+              element={<SignIn />}
+            />
           </>
         )
       ) : loginStatus ? (
         <>
-          <Route path="/*" element={<HomePage />} />
-          <Route path="/event/:id" element={<DetailEvent />} />
-          <Route path="/eventslist" element={<EventsList />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path='/*'
+            element={<HomePage />}
+          />
+          <Route
+            path='/event/:id'
+            element={<DetailEvent />}
+          />
+          <Route
+            path='/eventslist'
+            element={<EventsList />}
+          />
+          <Route
+            path='/dashboard'
+            element={<Dashboard />}
+          />
         </>
       ) : (
         <>
-          <Route path="/*" element={<HomePage />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/event/:id" element={<DetailEvent />} />
-          <Route path="/eventslist" element={<EventsList />} />
+          <Route
+            path='/*'
+            element={<HomePage />}
+          />
+          <Route
+            path='/signup'
+            element={<SignUp />}
+          />
+          <Route
+            path='/signin'
+            element={<SignIn />}
+          />
+          <Route
+            path='/event/:id'
+            element={<DetailEvent />}
+          />
+          <Route
+            path='/eventslist'
+            element={<EventsList />}
+          />
         </>
       )}
     </Routes>
