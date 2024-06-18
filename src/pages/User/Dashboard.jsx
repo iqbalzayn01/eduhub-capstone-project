@@ -64,9 +64,10 @@ export default function DashboardUser() {
         <div className="col-span-1 p-5 border border-gray-400 rounded-xl pt-14">
           <div className="flex flex-col items-center mb-10">
             <img
-              src="/images/person3.png"
+              src="/images/user.png"
               alt="Profile"
-              className="w-[200px] h-[200px] object-cover bg-gray-500 mb-5 rounded-full"
+              className="w-[200px] h-[200px] object-cover bg-white mb-5 rounded-full"
+              draggable="false"
             />
             <p className="font-semibold text-3xl">{userData.name}</p>
           </div>
@@ -76,12 +77,7 @@ export default function DashboardUser() {
           </div>
           <div className="mb-10">
             <p className="font-medium text-gray-400 pb-5">About</p>
-            <p className="font-medium text-xl">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
-              laborum tempore tempora provident corrupti veniam, cum eius libero
-              cupiditate dolorum ut ratione commodi natus, dolorem odit
-              consectetur corporis reiciendis unde.
-            </p>
+            <p className="font-medium text-xl">-</p>
           </div>
         </div>
         {/* Grid col 2 */}

@@ -44,7 +44,7 @@ export default function Navbar() {
               Events
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink to="/services" className="hover:text-gray-300">
               Services
             </NavLink>
@@ -53,7 +53,7 @@ export default function Navbar() {
             <NavLink to="/contact" className="hover:text-gray-300">
               Contact
             </NavLink>
-          </li>
+          </li> */}
         </ul>
         <div className="flex gap-2">
           {isLoggedIn ? (

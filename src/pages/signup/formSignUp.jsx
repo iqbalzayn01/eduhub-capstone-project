@@ -75,7 +75,7 @@ const FormSignUp = ({
           />
         </div>
         <div>
-          <input
+          {/* <input
             type="text"
             name="role"
             placeholder="Role"
@@ -83,7 +83,20 @@ const FormSignUp = ({
             onChange={onChange}
             className="w-full bg-transparent p-2 border border-colorgray rounded-xl"
             required
-          />
+          /> */}
+          <select
+            name="role"
+            value={valueRole}
+            onChange={onChange}
+            className="w-full bg-transparent p-2 border border-colorgray rounded-xl"
+            required
+          >
+            <option value="" disabled style={{ color: 'gray' }}>
+              Select a role
+            </option>
+            <option value="student">Student</option>
+            <option value="none">None</option>
+          </select>
         </div>
         <button
           type="submit"

@@ -6,7 +6,7 @@ import Button from '../../components/User/Button';
 import Navbar from '../../components/User/Navbar';
 import Footer from '../../components/User/Footer';
 import { FiArrowUpRight } from 'react-icons/fi';
-import ReviewCard from '../../components/User/ReviewCard';
+// import ReviewCard from '../../components/User/ReviewCard';
 import { formatDate } from '../../utils/date';
 import { Link } from 'react-router-dom';
 
@@ -138,9 +138,7 @@ export default function HomePage() {
                   <br />
                   <span className="font-extrabold">EduHub</span>
                 </h2>
-                <div className="mt-6">
-                  <Button>More</Button>
-                </div>
+                <div className="mt-6">{/* <Button>More</Button> */}</div>
               </div>
               <div className="mt-8 lg:mt-0 relative z-10">
                 <p className="font-medium leading-relaxed text-xl">
@@ -194,7 +192,7 @@ export default function HomePage() {
           </section>
 
           {/* Bagian Reviews Section */}
-          <section id="reviews">
+          {/* <section id="reviews">
             <div className="mt-28 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
               <ReviewCard
                 type={'Story'}
@@ -229,7 +227,8 @@ export default function HomePage() {
                 imgUrl={'/images/person4.png'}
               />
             </div>
-          </section>
+          </section> */}
+
           {/* <section id="reviews">
             <div className="mt-28 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
               {randomEvents.slice(0, 4).map((event) => (
