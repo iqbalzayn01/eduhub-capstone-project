@@ -1,8 +1,34 @@
-# React + Vite
+# EduHub
+A web application built with React and Vite to help students stay up-to-date with upcoming events and workshops.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Features
+- View Events
+- View Detail Events
+- Register an Event
+- Admin manage Events, Users, and Talents
 
-Currently, two official plugins are available:
+## Technologies Used
+- React: A JavaScript library for building user interfaces.
+- Vite: A blazing fast build tool for modern web applications.
+- React Router: For handling client-side routing in the application.
+- Tailwind CSS: A utility-first CSS framework for styling the application.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started
+### Prerequisites
+- [Node.js](https://nodejs.org/en)
+
+### Installation
+1. Clone the repository <br>
+`git clone https://github.com/iqbalzayn01/eduhub-capstone-project.git`
+3. Navigate to the project directory <br>
+`cd eduhub-capstone-project`
+4. Install dependencies <br>
+`npm install`
+6. Run the development server <br>
+`npm run dev`
+
+## Acknowledgements
+- [React Documentation](https://reactjs.org/docs/)
+- [Vite Documentation](https://vitejs.dev/guide/)
+- [React Router Documentation](https://reactrouter.com/web/guides/quick-start)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
