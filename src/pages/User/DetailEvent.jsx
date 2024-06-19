@@ -13,6 +13,7 @@ import Title from '../../components/User/Title';
 import Content from '../../components/User/Content';
 import Navbar from '../../components/User/Navbar';
 import Footer from '../../components/User/Footer';
+import { formatDate, formatTime } from '../../utils/date';
 
 const DetailEvent = () => {
   const { id } = useParams();
@@ -112,21 +113,6 @@ const DetailEvent = () => {
     }
   };
 
-  const formatDateAndTime = (timestamp) => {
-    const date = new Date(timestamp.seconds * 1000);
-    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
-  };
-
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp.seconds * 1000);
-    return date.toLocaleDateString();
-  };
-
-  const formatTime = (timestamp) => {
-    const date = new Date(timestamp.seconds * 1000);
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  };
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -140,8 +126,10 @@ const DetailEvent = () => {
       <Navbar />
       <Title
         title={event.title}
-        start={formatDateAndTime(event.reg_start)}
-        end={formatDateAndTime(event.reg_end)}
+        start={`${formatDate(event.reg_start)} - ${formatTime(
+          event.reg_start,
+        )}`}
+        end={`${formatDate(event.reg_end)} - ${formatTime(event.reg_end)}`}
         ButtonClick={hasJoined ? handleCancelJoinEvent : handleJoinEvent}
         hasJoined={hasJoined}
       />

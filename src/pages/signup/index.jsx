@@ -83,31 +83,11 @@ export default function SignUp() {
           objectFit: 'cover',
         }}
       >
-        <p className="text-3xl text-colorprimary font-extrabold">
-          InsightGathers.
-        </p>
+        <p className="text-3xl text-colorprimary font-extrabold">EduHub</p>
         <div className="flex items-end justify-between">
           <span className="copyright w-1/3 text-colorprimary font-medium">
-            Copyright © 2024 InsightGathers All Right Reserved
+            Copyright © 2024 EduHub All Right Reserved
           </span>
-          <ul className="flex gap-5">
-            <li>
-              <Link
-                to="#terms-of-service"
-                className="text-colorprimary font-semibold"
-              >
-                Terms of Service
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="#privacy-police"
-                className="text-colorprimary font-semibold"
-              >
-                Privacy Police
-              </Link>
-            </li>
-          </ul>
         </div>
       </div>
       <div className="flex flex-col items-center justify-between p-10 gap-10">

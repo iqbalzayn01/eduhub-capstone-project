@@ -9,6 +9,15 @@ const formatDate = (date) => {
   }).format(date);
 };
 
+const formatTime = (timestamp) => {
+  const date = new Date(timestamp.seconds * 1000);
+  return new Intl.DateTimeFormat('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).format(date);
+};
+
 const TimestampToDateString = (timestamp) => {
   const date = timestamp.toDate();
   const year = date.getFullYear();
@@ -20,4 +29,4 @@ const TimestampToDateString = (timestamp) => {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
-export { formatDate, TimestampToDateString };
+export { formatDate, formatTime, TimestampToDateString };
